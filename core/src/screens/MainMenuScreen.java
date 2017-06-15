@@ -41,6 +41,7 @@ public class MainMenuScreen extends ScreenAdapter {
        // this.camera.setToOrtho(false, 1920, 1080);
 
         mainSwitch = 0 ;
+        //slack test
 
         batch = new SpriteBatch() ;
 
