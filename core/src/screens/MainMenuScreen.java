@@ -6,7 +6,10 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Application;
 
 import constants.GameConstants;
@@ -17,10 +20,12 @@ import constants.GameConstants;
 public class MainMenuScreen extends ScreenAdapter {
     final Application game  ;
     OrthographicCamera camera;
+    OrthographicCamera guicam ;
     private int mainSwitch ;
     private SpriteBatch batch ;
+    private Sprite openingScreen ;
+    private Sprite selectScreen ;
     Music titleMusic = Gdx.audio.newMusic(Gdx.files.internal("Ice9.mp3"));
-
 
     public MainMenuScreen(Application game)
     {
@@ -28,12 +33,27 @@ public class MainMenuScreen extends ScreenAdapter {
         titleMusic.setLooping(true);
         titleMusic.play();
         this.game = game ;
-        this.camera = new OrthographicCamera() ;
-        this.camera.setToOrtho(false, 1920, 1080);
+        this.camera = new OrthographicCamera(1920,1080) ;
+
+        guicam = new OrthographicCamera(480, 320);
+        guicam.position.set(480/2F, 320/2F, 0);
+
+       // this.camera.setToOrtho(false, 1920, 1080);
 
         mainSwitch = 0 ;
 
         batch = new SpriteBatch() ;
+
+        openingScreen = new Sprite(GameConstants.MAIN_MENU_SCREEN) ;
+        selectScreen = new Sprite(GameConstants.CLASS_SELECT_SCREEN) ;
+
+        openingScreen.setOrigin(0,0);
+        openingScreen.setPosition(-openingScreen.getWidth()/2,-openingScreen.getHeight()/2);
+
+        selectScreen.setOrigin(0,0);
+        selectScreen.setPosition(-selectScreen.getWidth()/2,-selectScreen.getHeight()/2);
+
+
     }
 
     public enum State
@@ -50,15 +70,21 @@ public class MainMenuScreen extends ScreenAdapter {
 
         this.camera.update();
 
+        batch.setProjectionMatrix(camera.combined);
+
         batch.begin();
+
+
 
         switch(state)
         {
             case MAIN:
-                batch.draw(GameConstants.MAIN_MENU_SCREEN, 0.0F, 0.0F);
+                //batch.draw(GameConstants.MAIN_MENU_SCREEN, 0.0F, 0.0F);
+                openingScreen.draw(batch);
                 break ;
             case CLASS:
-                batch.draw(GameConstants.CLASS_SELECT_SCREEN, 0.0F, 0.0F);
+                //batch.draw(GameConstants.CLASS_SELECT_SCREEN, 0.0F, 0.0F);
+                selectScreen.draw(batch);
                 break ;
         }
 
@@ -69,7 +95,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
     public void checkInput()
     {
-        if(Gdx.input.isKeyPressed(Input.Keys.ENTER))
+        if(Gdx.input.isTouched())
         {
             if(state == State.MAIN)
             {
@@ -77,35 +103,6 @@ public class MainMenuScreen extends ScreenAdapter {
             }
         }
 
-        if(Gdx.input.isTouched())
-        {
-            float mouseX = Gdx.input.getX() ;
-            float mouseY = Gdx.input.getY() ;
-
-            if(state==State.CLASS)
-            {
-                if(mouseX<620 && mouseX>320 && mouseY>470 && mouseY<650){
-                    titleMusic.stop();
-                    titleMusic.dispose();
-                    game.setScreen(new GameScreen(game, "bow"));
-                }
-
-                else if(mouseX > 860 && mouseX < 1165 && mouseY>470 && mouseY<650)
-                {
-                    titleMusic.stop();
-                    titleMusic.dispose();
-                    game.setScreen(new GameScreen(game, "sword"));
-                }
-
-                else if(mouseX > 1450 && mouseX < 1750 && mouseY > 470 && mouseY < 650)
-                {
-                    titleMusic.stop();
-                    titleMusic.dispose();
-                    game.setScreen(new GameScreen(game, "mage"));
-                }
-            }
-
-        }
     }
 
     public void show ()

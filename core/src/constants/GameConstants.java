@@ -96,8 +96,10 @@ public class GameConstants {
     public static final Texture ITEM_MOVE = new Texture("moveSpeedPot.png") ;
 
     //Main Menu Screen Textures
-    public static final Texture MAIN_MENU_SCREEN = new Texture("titleScreen.png") ;
+    public static final Texture MAIN_MENU_SCREEN = new Texture("android_title.png") ;
     public static final Texture CLASS_SELECT_SCREEN = new Texture("classSelectionScreen2.png") ;
+    public static final Texture RECTANGLE_TEST = new Texture("enemyTest.png") ;
+    public static final Texture RECTANGLE_TEST2 = new Texture("tempTest.png") ;
 
     //Pause Table Textures
     public static final Texture LEVEL_TABLE = new Texture("levelUpGUI.png");
