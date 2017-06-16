@@ -1,20 +1,16 @@
 package screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Application;
 
 import constants.GameConstants;
-import controllers.MainMenuControl;
+import controllers.MainMenuController;
 
 /**
  * Created by rjawa on 6/10/2017.
@@ -23,7 +19,7 @@ public class MainMenuScreen implements Screen {
     final Application game  ;
     private SpriteBatch batch ;
     OrthographicCamera camera;
-    MainMenuControl controller ;
+    MainMenuController controller ;
     private int mainSwitch ;
     private Sprite openingScreen ;
     private Sprite selectScreen ;
@@ -50,7 +46,7 @@ public class MainMenuScreen implements Screen {
         selectScreen.setOrigin(0,0);
         selectScreen.setPosition(-selectScreen.getWidth()/2,-selectScreen.getHeight()/2);
 
-        controller = new MainMenuControl(game) ;
+        controller = new MainMenuController(game) ;
     }
 
 

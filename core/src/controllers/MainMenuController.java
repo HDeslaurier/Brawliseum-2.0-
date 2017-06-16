@@ -17,13 +17,13 @@ import screens.MainMenuScreen;
  * Created by rjawa on 6/15/2017.
  */
 
-public class MainMenuControl {
+public class MainMenuController {
     Viewport viewport ;
     Stage stage ;
     boolean  leftPressed, centerPressed, rightPressed;
     OrthographicCamera cam ;
 
-    public MainMenuControl(Application game){
+    public MainMenuController(Application game){
         cam = new OrthographicCamera() ;
         viewport = new FitViewport(800,400,cam) ;
         stage = new Stage(viewport, game.getBatch());

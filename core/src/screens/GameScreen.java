@@ -17,6 +17,7 @@ import com.mygdx.game.Application;
 import java.util.ArrayList;
 
 import constants.GameConstants;
+import controllers.GameScreenController;
 import dungeon.BossLevelGenerator;
 import dungeon.DungeonTile;
 import dungeon.Level;
@@ -32,11 +33,12 @@ import entities.Projectile;
 
 public class GameScreen extends ScreenAdapter
 {
-
     Application game;
     private final SpriteBatch batch;
     private final OrthographicCamera camera;
     float elapsedTime;
+
+    GameScreenController controller ;
 
     Animation<TextureRegion> portalOpen;
     Animation<TextureRegion> portalClosed;
@@ -62,6 +64,10 @@ public class GameScreen extends ScreenAdapter
     Sound swordHit2 = Gdx.audio.newSound(Gdx.files.internal("sword hit2.wav"));
     Sound enterPortal = Gdx.audio.newSound(Gdx.files.internal("portal sound.wav"));
     Sound pickupPotion = Gdx.audio.newSound(Gdx.files.internal("Potion_Pickup.wav"));
+
+    Sound arrowShoot = Gdx.audio.newSound(Gdx.files.internal("arrow shoot.wav"));
+    Sound spellShoot = Gdx.audio.newSound(Gdx.files.internal("spell shoot.wav"));
+
 
     private String playerClass;
 
@@ -111,6 +117,8 @@ public class GameScreen extends ScreenAdapter
         createPortal();
 
         startTime = com.badlogic.gdx.utils.TimeUtils.nanoTime() ;
+
+        controller = new GameScreenController(game) ;
     }
 
     public enum State
@@ -320,6 +328,9 @@ public class GameScreen extends ScreenAdapter
                 //draw enemies
                 drawEnemies(batch) ;
 
+                //draw gui
+                controller.draw();
+
                 batch.draw(GameConstants.POTION_SLOT, 32*player.getxLocation() - 15,  32*player.getyLocation()-150);
 
                 if(player.getPlayerPotion() != null)
@@ -390,6 +401,8 @@ public class GameScreen extends ScreenAdapter
                 }
 
 
+                checkGUIInput() ;
+
                 break;
 
             case PAUSE:
@@ -440,6 +453,8 @@ public class GameScreen extends ScreenAdapter
                 checkPauseMenuInput();
 
 
+
+
             case RESUME:
 
                 break;
@@ -447,6 +462,63 @@ public class GameScreen extends ScreenAdapter
                 break;
         }
 
+    }
+
+    private void checkGUIInput(){
+        if(Gdx.input.isTouched()){
+            if(controller.isLeftPressed()){
+                player.setxLocation(player.getxLocation() - player.getSpeed()*Gdx.graphics.getDeltaTime());
+                player.setMovingNX(true);
+                player.setPlayerDirection(GameConstants.LEFT);
+
+                player.setMovingY(false);
+                player.setMovingX(false);
+                player.setMovingNY(false);
+            }else if(controller.isRightPressed()){
+                player.setxLocation(player.getxLocation() + player.getSpeed()*Gdx.graphics.getDeltaTime());
+                player.setMovingX(true);
+                player.setPlayerDirection(GameConstants.RIGHT);
+
+                player.setMovingY(false);
+                player.setMovingNY(false);
+                player.setMovingNX(false);
+            }else if(controller.isUpPressed()){
+                player.setyLocation(player.getyLocation() + player.getSpeed()*Gdx.graphics.getDeltaTime());
+                player.setMovingY(true);
+                player.setPlayerDirection(GameConstants.UP);
+
+                player.setMovingX(false);
+                player.setMovingNY(false);
+                player.setMovingNX(false);
+            }else if(controller.isDownPressed()){
+                player.setyLocation(player.getyLocation() - player.getSpeed()*Gdx.graphics.getDeltaTime());
+                player.setMovingNY(true);
+                player.setPlayerDirection(GameConstants.DOWN);
+
+                player.setMovingX(false);
+                player.setMovingY(false);
+                player.setMovingNX(false);
+            }else if(controller.isAttackPressed() && (com.badlogic.gdx.utils.TimeUtils.nanoTime() - player.getLastAttack() > player.getAttackSpeed())){
+                if(playerClass.equals("sword"))
+                {
+                    player.swordAttack(map);
+                }
+                else if(playerClass.equals("bow") || playerClass.equals("mage"))
+                {
+                    if(playerClass.equals("mage"))
+                        spellShoot.play(.75f);
+                    if(playerClass.equals("bow"))
+                        arrowShoot.play(.75f);
+
+                    player.rangeAttack(map);
+                }
+
+                player.setLastAttack(com.badlogic.gdx.utils.TimeUtils.nanoTime());
+
+            }else if(controller.isPotionPressed()){
+
+            }
+        }
     }
 
     private void checkLevelMenuInput()

@@ -28,6 +28,9 @@ public class Player extends Entity
     private float baseAttack;
     private float baseDefense;
     private int level;
+
+
+
     private long lastAttack ;
     private long attackSpeed ;
     private long baseAttackSpeed;
@@ -349,6 +352,7 @@ public class Player extends Entity
     @Override
     public void move(DungeonTile[][] map)
     {
+        /*
         //Added by Jason
         if(Gdx.input.isKeyPressed(Input.Keys.W))
         {
@@ -396,7 +400,9 @@ public class Player extends Entity
             this.setMovingY(false);
             this.setMovingNY(false);
             this.setMovingNX(false);
+
         }
+        */
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && (com.badlogic.gdx.utils.TimeUtils.nanoTime() - lastAttack > attackSpeed))
         {
@@ -451,7 +457,7 @@ public class Player extends Entity
         }
     }
 
-    private void swordAttack(DungeonTile[][] map)
+    public void swordAttack(DungeonTile[][] map)
     {
         if(playerDirection == GameConstants.UP)
         {
@@ -510,7 +516,7 @@ public class Player extends Entity
             }
         }
     }
-    private void rangeAttack(DungeonTile[][] map)
+    public void rangeAttack(DungeonTile[][] map)
     {
         Projectile newProjectile = new Projectile(playerClass, attack(), this.getxLocation(), this.getyLocation(), (12), playerDirection);
 
@@ -751,5 +757,13 @@ public class Player extends Entity
      */
     public void setNormalSpeed(float normalSpeed) {
         this.normalSpeed = normalSpeed;
+    }
+
+    public long getLastAttack() {
+        return lastAttack;
+    }
+
+    public void setLastAttack(long lastAttack){
+        this.lastAttack = lastAttack ;
     }
 }

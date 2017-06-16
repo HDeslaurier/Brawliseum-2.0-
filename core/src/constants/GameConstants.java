@@ -105,6 +105,16 @@ public class GameConstants {
     public static final Image FIGHTER_BOX = new Image(new Texture("fighter_box.png")) ;
     public static final Image MAGE_BOX = new Image(new Texture("mage_box.png")) ;
 
+    //Game Screen GUI Control Textures
+    public static final Image LEFT_BUTTON = new Image(new Texture("shadedDark24.png")) ;
+    public static final Image RIGHT_BUTTON = new Image(new Texture("shadedDark25.png")) ;
+    public static final Image UP_BUTTON = new Image(new Texture("shadedDark26.png")) ;
+    public static final Image DOWN_BUTTON = new Image(new Texture("shadedDark27.png")) ;
+    public static final Image PAUSE_BUTTON = new Image(new Texture("shadedDark14.png")) ;
+    public static final Image BLANK_BUTTON = new Image(new Texture("shadedDark11.png")) ;
+    public static final Image ATTACK_BUTTON = new Image(new Texture("shadedDark36.png")) ;
+
+
     //Pause Table Textures
     public static final Texture LEVEL_TABLE = new Texture("levelUpGUI.png");
     public static final Texture PAUSE_TABLE = new Texture("pauseGUI.png");
