@@ -1,6 +1,7 @@
 package constants;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
  * Created by rjawa on 6/10/2017.
@@ -97,9 +98,12 @@ public class GameConstants {
 
     //Main Menu Screen Textures
     public static final Texture MAIN_MENU_SCREEN = new Texture("android_title.png") ;
-    public static final Texture CLASS_SELECT_SCREEN = new Texture("classSelectionScreen2.png") ;
-    public static final Texture RECTANGLE_TEST = new Texture("enemyTest.png") ;
-    public static final Texture RECTANGLE_TEST2 = new Texture("tempTest.png") ;
+    public static final Texture CLASS_SELECT_SCREEN = new Texture("main_class_select_blank.png") ;
+
+    //Main Menu Screen Control Textures
+    public static final Image ARCHER_BOX = new Image(new Texture("archer_box.png")) ;
+    public static final Image FIGHTER_BOX = new Image(new Texture("fighter_box.png")) ;
+    public static final Image MAGE_BOX = new Image(new Texture("mage_box.png")) ;
 
     //Pause Table Textures
     public static final Texture LEVEL_TABLE = new Texture("levelUpGUI.png");
