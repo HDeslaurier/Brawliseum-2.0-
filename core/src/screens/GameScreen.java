@@ -65,6 +65,8 @@ public class GameScreen extends ScreenAdapter
     Sound enterPortal = Gdx.audio.newSound(Gdx.files.internal("portal sound.wav"));
     Sound pickupPotion = Gdx.audio.newSound(Gdx.files.internal("Potion_Pickup.wav"));
 
+    Sound drinkPotion = Gdx.audio.newSound(Gdx.files.internal("Potion_Use.wav"));
+
     Sound arrowShoot = Gdx.audio.newSound(Gdx.files.internal("arrow shoot.wav"));
     Sound spellShoot = Gdx.audio.newSound(Gdx.files.internal("spell shoot.wav"));
 
@@ -325,13 +327,14 @@ public class GameScreen extends ScreenAdapter
                 //draw player
                 player.draw(batch, elapsedTime);
 
+                batch.draw(GameConstants.POTION_SLOT, 32*player.getxLocation() - 15,  32*player.getyLocation()-150);
+
                 //draw enemies
                 drawEnemies(batch) ;
 
-                //draw gui
-                controller.draw();
 
-                batch.draw(GameConstants.POTION_SLOT, 32*player.getxLocation() - 15,  32*player.getyLocation()-150);
+
+
 
                 if(player.getPlayerPotion() != null)
                 {
@@ -360,6 +363,9 @@ public class GameScreen extends ScreenAdapter
                 batch.draw(GameConstants.EMPTY_BAR, 32*player.getxLocation()+125 , 32*player.getyLocation()+80);
                 batch.draw(GameConstants.BLUE_BAR, 32*player.getxLocation()+125 , 32*player.getyLocation()+80,
                         GameConstants.BLUE_BAR.getWidth()*(float)(currentLevel.getEnemies().size())/(currentLevel.getTotalEnemies()) , GameConstants.BLUE_BAR.getHeight());
+
+                //draw gui
+                controller.draw();
 
                 //cant draw after this point
                 batch.end();
@@ -452,9 +458,6 @@ public class GameScreen extends ScreenAdapter
 
                 checkPauseMenuInput();
 
-
-
-
             case RESUME:
 
                 break;
@@ -516,6 +519,28 @@ public class GameScreen extends ScreenAdapter
                 player.setLastAttack(com.badlogic.gdx.utils.TimeUtils.nanoTime());
 
             }else if(controller.isPotionPressed()){
+                if(player.getPlayerPotion() != null)
+                {
+                    if(player.getPlayerPotion().getPotionName().equals("health"))
+                    {
+                        drinkPotion.play(7.5f);
+                        player.setHealth( Math.min(player.getPlayerPotion().getValue() + player.getHealth(), player.getMaxHealth()));
+                    }
+                    else if(player.getPlayerPotion().getPotionName().equals("attack"))
+                    {
+                        drinkPotion.play(7.5f);
+                        player.setAttackSpeed(player.getAttackSpeed() - (long)player.getPlayerPotion().getValue());
+                    }
+                    else if(player.getPlayerPotion().getPotionName().equals("move"))
+                    {
+                        drinkPotion.play(7.5f);
+                        player.setSpeed(player.getSpeed()+player.getPlayerPotion().getValue());
+                    }
+
+                    player.setPlayerPotion(null) ;
+                }
+
+            }else if(controller.isPausePressed()){
 
             }
         }

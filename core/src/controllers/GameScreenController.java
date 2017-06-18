@@ -28,11 +28,15 @@ public class GameScreenController {
         stage = new Stage(viewport, game.getBatch());
         Gdx.input.setInputProcessor(stage);
 
-        Table directionsTable = new Table() ;
-        directionsTable.left().bottom();
+        Table rootTable = new Table() ;
+        rootTable.setFillParent(true);
+        rootTable.bottom().left();
 
-        Table actionTable = new Table() ;
-        actionTable.right();
+        Table directionsTable = new Table() ;
+
+        Table pauseTable = new Table() ;
+
+        Table actionsTable = new Table() ;
 
         GameConstants.UP_BUTTON.setSize(50,50);
         GameConstants.UP_BUTTON.addListener(new InputListener(){
@@ -124,7 +128,7 @@ public class GameScreenController {
             }
         }) ;
 
-        GameConstants.ATTACK_BUTTON.setSize(50,50);
+        GameConstants.ATTACK_BUTTON.setSize(80,80);
         GameConstants.ATTACK_BUTTON.addListener(new InputListener(){
 
             @Override
@@ -139,10 +143,25 @@ public class GameScreenController {
             }
         }) ;
 
+        GameConstants.BLANK_BUTTON.setSize(80,80);
+        GameConstants.BLANK_BUTTON.addListener(new InputListener(){
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                potionPressed = true ;
+                return true ;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                potionPressed = false;
+            }
+        }) ;
+
+        pauseTable.add(GameConstants.PAUSE_BUTTON).size(GameConstants.PAUSE_BUTTON.getWidth(),GameConstants.PAUSE_BUTTON.getHeight()) ;
+
         directionsTable.add() ;
         directionsTable.add(GameConstants.UP_BUTTON).size(GameConstants.UP_BUTTON.getWidth(),GameConstants.UP_BUTTON.getHeight()) ;
-        directionsTable.add() ;
-        directionsTable.add(GameConstants.ATTACK_BUTTON).size(GameConstants.ATTACK_BUTTON.getWidth(),GameConstants.ATTACK_BUTTON.getHeight()) ;
         directionsTable.add() ;
         directionsTable.row().pad(5,5,5,5) ;
         directionsTable.add(GameConstants.LEFT_BUTTON).size(GameConstants.LEFT_BUTTON.getWidth(),GameConstants.LEFT_BUTTON.getHeight()) ;
@@ -153,7 +172,18 @@ public class GameScreenController {
         directionsTable.add(GameConstants.DOWN_BUTTON).size(GameConstants.DOWN_BUTTON.getWidth(),GameConstants.DOWN_BUTTON.getHeight()) ;
         directionsTable.add() ;
 
-        stage.addActor(directionsTable);
+        actionsTable.add(GameConstants.ATTACK_BUTTON).size(GameConstants.ATTACK_BUTTON.getWidth(),GameConstants.ATTACK_BUTTON.getHeight()).padRight(15);
+        actionsTable.add(GameConstants.BLANK_BUTTON).size(GameConstants.BLANK_BUTTON.getWidth(),GameConstants.BLANK_BUTTON.getHeight());
+
+
+
+        rootTable.add(directionsTable).padRight(400);
+        rootTable.add(actionsTable).padLeft(10);
+
+        //debug lines
+        //rootTable.setDebug(true);
+
+        stage.addActor(rootTable);
 
         //actionTable.add(GameConstants.ATTACK_BUTTON).size(GameConstants.ATTACK_BUTTON.getWidth(),GameConstants.ATTACK_BUTTON.getHeight()) ;
         //actionTable.add(GameConstants.BLANK_BUTTON).size(GameConstants.BLANK_BUTTON.getWidth(),GameConstants.BLANK_BUTTON.getHeight()) ;
